@@ -1,0 +1,7 @@
+<view>
+<image bindtap="weather" class="qiuku" src="../../images/timg.jpg"></image>
+</view>
+<view class="wenzi">
+<text>点击图片查看今日天气及穿衣推荐(⊙o⊙)</text>
+</view>
+<view>{{array}}</view>

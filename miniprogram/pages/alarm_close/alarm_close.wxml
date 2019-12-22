@@ -1,0 +1,25 @@
+<view class="shunxu" >
+<text class="shunxu">(1)</text>
+<text class="shunxu">(2)</text>
+<text class="shunxu">(3)</text>
+<text class="shunxu">(4)</text>
+<text class="shunxu">(5)</text>
+</view>
+<view class="bianjie">
+<input class="bianjie" bindinput="right1"></input>
+<input class="bianjie" bindinput="right2"></input>
+<input class="bianjie" bindinput="right3"></input>
+<input class="bianjie" bindinput="right4"></input>
+<input class="bianjie" bindinput="right5"></input>
+</view>
+<view>
+<button bindtap="send" hover-class="submit">提交</button>
+</view>
+<view class="contianer">
+<text>         1</text>
+<text>         1</text>
+<text>         1</text>
+<text>         1</text>
+<text>         1</text>
+</view>
+

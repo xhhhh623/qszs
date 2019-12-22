@@ -1,0 +1,74 @@
+input
+{
+  border: solid;
+  
+  height: 100rpx;
+  
+}
+.zhu
+{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+}
+.biaoyu
+{
+  text-align: center;
+  color: blue;
+  font-size:100rpx
+}
+.shijian
+{
+  font-size:50rpx;
+  margin-top: 100rpx;
+  text-align: center;
+}
+.ri
+{
+  display: flex;
+}
+.shurushi
+{
+  width: 30%;
+  margin-right: 200rpx;
+}
+.view2
+{
+display: flex;
+flex-direction: row;
+margin: 50rpx;
+}
+.text1
+{
+  font-size:75rpx;
+  color: red;
+}
+.text2
+{
+  font-size:75rpx;
+  color: red;
+}
+.thing
+{
+  margin: 50rpx;
+}
+.timu
+{
+  font-size:100rpx;
+}
+.shi{
+margin: 50rpx;
+
+}
+.shezhi
+{
+  border: solid;
+}
+.view3
+{
+margin-left: 225rpx;
+}
+.shijian{
+  font-size: 75rpx;
+}

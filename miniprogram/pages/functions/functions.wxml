@@ -1,0 +1,21 @@
+<view class="hang">
+<button  class="func" bindtap="alarmset">闹钟</button>
+<image  class="images" src="../../images/naozhong2.jpg"></image>
+</view>
+<view class="hang">
+<button  class="func" bindtap="ktset">空调遥控器</button>
+<image class="images" src=" ../../images/kongtiao.png"></image>
+</view>
+<view class="hang">
+<button  class="func" bindtap="ledswitch">夜灯</button>
+<image class="images" src="../../images/led.png"></image>
+</view>
+<view class="hang">
+<button  class="func" bindtap="clothing_reminder">穿衣提醒</button>
+<image class="images" src="../../images/yifu.jpg"></image>
+</view>
+
+<view class="hang">
+<button  class="func" bindtap="memorandum">备忘录</button>
+<image src="../../images/beiwanglu.png" class="images" ></image>
+</view>

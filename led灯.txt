@@ -1,0 +1,163 @@
+#include <Wire.h>
+#include <ESP8266.h>
+#include <I2Cdev.h>
+#include <Microduino_ColorLED.h>
+#define BUZZER_PIN A2
+#define BUZZER_FRE 100
+#ifdef ESP32
+#error "This code is not recommended to run on the ESP32 platform! Please check your Tools->Board setting."
+#endif
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega1284P__) || defined (__AVR_ATmega644P__) || defined(__AVR_ATmega128RFA1__)
+#define EspSerial Serial1
+#define UARTSPEED  115200
+#endif
+#if defined (__AVR_ATmega168__) || defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(2, 3);
+#define EspSerial mySerial
+#define UARTSPEED  9600
+#endif
+#define SSID        F("vivo Y67A")
+#define PASSWORD    F("shanyuxuan")
+#define HOST_NAME   "api.heclouds.com"
+#define HOST_PORT   (80)
+#define DEVICEID  (563610788)
+#define apikey  "hImO60NaKFwUUWYvy2wIUpdBcyY="
+#define PIN 6 
+String getString;
+char value;
+String postString;
+String jsonToSend;
+ char value1[7]={0};
+  int sum=0;
+  long int a5 = 0;
+  ColorLED strip = ColorLED(1, PIN);
+
+
+
+ESP8266 wifi(&EspSerial);
+
+void setup(void)
+{
+  Serial.begin(115200);
+  while (!Serial); // wait for Leonardo enumeration, others continue immediately
+  Serial.print(F("setup begin\r\n"));
+  delay(100);
+
+  WifiInit(EspSerial, UARTSPEED);
+
+  Serial.print(F("FW Version:"));
+  Serial.println(wifi.getVersion().c_str());
+
+  if (wifi.setOprToStation()) {
+    Serial.print(F("to station ok\r\n"));
+  } else {
+    Serial.print(F("to station err\r\n"));
+  }
+
+  if (wifi.joinAP(SSID, PASSWORD)) {
+    Serial.print(F("Join AP success\r\n"));
+    Serial.print(F("IP:"));
+    Serial.println( wifi.getLocalIP().c_str());
+  } 
+ else {  
+    Serial.print(F("Join AP failure\r\n"));
+  }
+
+  Serial.print(F("setup end\r\n"));
+
+ strip.begin();
+  strip.setBrightness(60);       //设置彩灯亮度
+  strip.show();
+
+
+}
+
+
+void loop(void)
+{
+   if (wifi.createTCP(HOST_NAME, HOST_PORT)) {
+    Serial.print("create tcp ok\r\n");
+  } 
+  else {
+    Serial.print(F("create tcp err\r\n"));
+  }
+
+  getString = "GET  http://api.heclouds.com/devices/";
+  getString += DEVICEID;
+  getString += "/datastreams/number1  HTTP/1.1";
+  getString += "\r\n";
+  getString += "api-key:";
+  getString += apikey;
+  getString += "\r\n";
+  getString+="Host:api.heclouds.com\r\n";
+  getString+="Connection:close\r\n";
+  getString+="Content-Length:0";
+  getString += "\r\n";
+  getString += "\r\n";
+  getString += "\r\n";
+  const char *getArray = getString.c_str();                 
+  Serial.println(getArray);
+  wifi.send((const uint8_t*)getArray, strlen(getArray));    
+  Serial.println("send success");
+
+  
+  uint8_t buffer[512] ={0};
+  uint32_t len = wifi.recv(buffer, sizeof(buffer), 20000);
+  if (len > 0) {
+    Serial.print(F("Received:["));
+    for (uint32_t i = 0; i < len; i++) {
+      Serial.print((char)buffer[i]);
+    }
+    Serial.print(F("]\r\n"));
+  }
+  for(uint32_t i = 0; i < len; i++)
+  {
+   if((char)buffer[i]=='c'&&(char)buffer[i+1]=='u'&&(char)buffer[i+2]=='r'&&(char)buffer[i+3]=='r')
+   {
+ for(int s=0,a=16;s<=6;s++){
+      value1[s]=(char)buffer[i+s+a];
+      
+      }//用get请求从onenet上获取数据并存储在value1数组中
+    
+    }
+  
+
+   
+     }
+     sum=0;
+  long int length = 1000000;
+  for (int i = 0; i <= 6; i++) {
+      a5 = value1[i] - 48;
+    sum += a5*length;
+    length = length / 10;
+  }
+   for(int i=0;i<=6;i++){
+    Serial.print(value1[i]);
+    }//将value1中的7为字符型数据转换成int类型存在sum中
+  
+Serial.print(sum);
+ 
+if(sum==0){
+ 
+}
+  
+  else{
+    strip.setPixelColor(0, strip.Color(255, 255, 255));//亮灯
+  strip.show();
+  delay(60000);//一分钟后灭灯
+  strip.setPixelColor(0, strip.Color(0, 0, 0));//灭
+  strip.show();
+  delay(1000);
+    }
+  
+
+  if (wifi.releaseTCP()) {                                 
+    Serial.print("release tcp ok\r\n");
+  }
+  else {
+  Serial.print("release tcp err\r\n");  }
+  getArray = NULL;
+ 
+                                  
+ }

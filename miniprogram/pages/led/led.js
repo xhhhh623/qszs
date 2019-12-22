@@ -1,0 +1,99 @@
+// miniprogram/pages/led/led.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+
+  },
+  //向onenet发送数据  用于开启夜灯
+  led:function()
+  {
+    wx.request({
+      url: 'https://api.heclouds.com/devices/563610788/datapoints',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'api-key': 'hImO60NaKFwUUWYvy2wIUpdBcyY=',
+      },
+      data: {
+        "datastreams": [{
+          "id": "number1",
+          "datapoints": [{
+            "value": '0000001'
+          }]
+        }]
+      },
+
+
+      success: function (res) {
+        console.log('success')
+        console.log(res)
+
+      },
+      fail: function (res) {
+        console.log('fail')
+        console.log(res)
+      }
+
+    })
+
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

@@ -1,0 +1,12 @@
+.logo
+{
+width:750rpx;
+height:500rpx;
+}
+.in
+{
+  color: orange;
+  width: 500rpx;
+  margin-top: 75rpx;
+  font-size: 80rpx;
+}

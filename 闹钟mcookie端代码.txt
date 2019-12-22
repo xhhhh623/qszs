@@ -1,0 +1,217 @@
+
+
+
+
+#include <Wire.h>
+#include <ESP8266.h>
+#include <I2Cdev.h>
+#define BUZZER_PIN D2
+#define BUZZER_FRE 100
+#ifdef ESP32
+#error "This code is not recommended to run on the ESP32 platform! Please check your Tools->Board setting."
+#endif
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega1284P__) || defined (__AVR_ATmega644P__) || defined(__AVR_ATmega128RFA1__)
+#define EspSerial Serial1
+#define UARTSPEED  115200
+#endif
+#if defined (__AVR_ATmega168__) || defined (__AVR_ATmega328__) || defined (__AVR_ATmega328P__)
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(2, 3);
+#define EspSerial mySerial
+#define UARTSPEED  9600
+#endif
+#define SSID        F("vivo Y67A")
+#define PASSWORD    F("shanyuxuan")
+#define HOST_NAME   "api.heclouds.com"
+#define HOST_PORT   (80)
+#define DEVICEID  (563610788)
+#define apikey  "hImO60NaKFwUUWYvy2wIUpdBcyY="
+String getString;
+char value;
+String postString;
+String jsonToSend;
+ char value1[7]={0};
+  int sum=0;
+  long int a5 = 0;
+
+
+
+ESP8266 wifi(&EspSerial);
+
+void setup(void)
+{
+  Serial.begin(115200);
+  while (!Serial); // wait for Leonardo enumeration, others continue immediately
+  Serial.print(F("setup begin\r\n"));
+  delay(100);
+
+  WifiInit(EspSerial, UARTSPEED);
+
+  Serial.print(F("FW Version:"));
+  Serial.println(wifi.getVersion().c_str());
+
+  if (wifi.setOprToStation()) {
+    Serial.print(F("to station ok\r\n"));
+  } else {
+    Serial.print(F("to station err\r\n"));
+  }
+
+  if (wifi.joinAP(SSID, PASSWORD)) {
+    Serial.print(F("Join AP success\r\n"));
+    Serial.print(F("IP:"));
+    Serial.println( wifi.getLocalIP().c_str());
+  } 
+ else {  
+    Serial.print(F("Join AP failure\r\n"));
+  }
+
+  Serial.print(F("setup end\r\n"));
+
+
+
+
+
+
+}
+
+
+void loop(void)
+{
+   if (wifi.createTCP(HOST_NAME, HOST_PORT)) {
+    Serial.print("create tcp ok\r\n");
+  } 
+  else {
+    Serial.print(F("create tcp err\r\n"));
+  }
+
+  getString = "GET  http://api.heclouds.com/devices/";
+  getString += DEVICEID;
+  getString += "/datastreams/number1  HTTP/1.1";
+  getString += "\r\n";
+  getString += "api-key:";
+  getString += apikey;
+  getString += "\r\n";
+  getString+="Host:api.heclouds.com\r\n";
+  getString+="Connection:close\r\n";
+  getString+="Content-Length:0";
+  getString += "\r\n";
+  getString += "\r\n";
+  getString += "\r\n";
+  const char *getArray = getString.c_str();                 
+  Serial.println(getArray);
+  wifi.send((const uint8_t*)getArray, strlen(getArray));    
+  Serial.println("send success");//请求get链接的报头
+
+  
+  uint8_t buffer[512] ={0};
+  uint32_t len = wifi.recv(buffer, sizeof(buffer), 20000);
+  if (len > 0) {
+    Serial.print(F("Received:["));
+    for (uint32_t i = 0; i < len; i++) {
+      Serial.print((char)buffer[i]);
+    }
+    Serial.print(F("]\r\n"));
+  }
+  for(uint32_t i = 0; i < len; i++)
+  {
+   if((char)buffer[i]=='c'&&(char)buffer[i+1]=='u'&&(char)buffer[i+2]=='r'&&(char)buffer[i+3]=='r')
+   {
+ for(int s=0,a=16;s<=6;s++){
+      value1[s]=(char)buffer[i+s+a];//将value中的值存储在value1字符数组中
+      
+      }
+    
+    }
+  
+
+   
+     }
+     sum=0;
+  long int length = 1000000;
+  for (int i = 0; i <= 6; i++) {
+      a5 = value1[i] - 48;
+    sum += a5*length;
+    length = length / 10;
+  }
+   for(int i=0;i<=6;i++){
+    Serial.print(value1[i]);
+    }//将value1中的7个字符转换为相应的7位数字存储在sum中
+  
+Serial.print(sum);
+ 
+if(sum>10)//判断所拿取的数据是否为延迟时间
+{
+  int sss=sum*1000;
+  delay(sss);//把在onenet上拿到的数据设置成延迟，实现定时启动功能
+
+
+
+  
+  }
+else{
+  if(sum==0){   
+
+
+jsonToSend="{\"datastreams\":[{";
+//dtostrf(sensor_tem,1,2,buf);
+jsonToSend+="\"id\":";
+jsonToSend+="\"number1\"";
+jsonToSend+=",\"datapoints\":[{";
+//dtostrf(sensor_hum,1,2,buf);
+
+jsonToSend+="\"value\":0000000}]}]";
+//dtostrf(sensor_lux,1,2,buf);
+
+jsonToSend+="}";
+
+
+  postString = "POST  http://api.heclouds.com/devices/";
+  postString += DEVICEID;
+  postString += "/datapoints HTTP/1.1";
+  postString += "\r\n";
+  postString += "api-key:";
+  postString += apikey;
+  postString += "\r\n";
+  postString+="Host:api.heclouds.com\r\n";
+  postString+="Connection:close\r\n";
+  postString+="Content-Length:";
+  
+ postString+=jsonToSend.length();
+postString+="\r\n";
+postString+="\r\n";
+postString+=jsonToSend;
+postString+="\r\n";
+postString+="\r\n";
+postString+="\r\n";
+ postString += "\r\n";
+  const char *postArray = postString.c_str();                 
+  Serial.println(postArray);
+  wifi.send((const uint8_t*)postArray, strlen(postArray));    
+  Serial.println("send success");//用post请求将value的值置为0000000
+
+
+
+    
+    }
+    else{
+      tone(BUZZER_PIN,245);
+  delay(5000);//发声0.5s
+      }
+  }
+ 
+ 
+
+
+  if (wifi.releaseTCP()) {                                 
+    Serial.print("release tcp ok\r\n");
+  }
+  else {
+  Serial.print("release tcp err\r\n");
+  }
+  getArray = NULL;
+                                  
+  
+ 
+
+  delay(5000);
+}

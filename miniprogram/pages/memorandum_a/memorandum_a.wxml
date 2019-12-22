@@ -1,0 +1,25 @@
+<view class="biaoyu"><text class="timu">备忘录</text></view>
+<view class="shijian"><text>事件名称</text></view>
+<view class="zhu">
+<view>
+<input class="thing" bindinput="thing">   </input>
+</view>
+
+
+<view class="view2">
+<input></input>
+<text class="text1">月</text>
+<input  type="number" bindinput="day"></input>
+<text class="text2">日</text>
+</view>
+
+<view class="view3">
+<input style="width: 40%" class="shi" type="number" bindinput="hour"></input>
+
+</view>
+
+
+<view>
+<button class="shezhi" bindtap="sets">设置</button>
+</view>
+</view>

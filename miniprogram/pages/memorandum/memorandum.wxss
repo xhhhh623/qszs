@@ -1,0 +1,10 @@
+view{
+  height: 375rpx;
+}
+button
+{
+  border: solid;
+  margin: 50rpx;
+  text-align: left;
+  
+}

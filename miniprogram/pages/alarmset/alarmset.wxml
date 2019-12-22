@@ -1,0 +1,17 @@
+<view>
+<image src="../../images/naozhong3.jpg" style="width:750rpx" ></image>
+</view>
+<view class="view1">
+<text>请输入第二天起床时间</text>
+</view>
+<view class="view2">
+<input type="number" bindinput="set_the_hour" class="settime"   focus="true"></input>
+<text>:</text>
+<input type="number" bindinput="set_the_min" class="settime" ></input>
+</view>
+<view >
+<image   src="../../images/naozhong4.jpg" style="width:750rpx;height:400rpx"></image>
+</view>
+<view>
+<button style="border:solid" bindtap="set_is_ok">设置</button>
+</view>

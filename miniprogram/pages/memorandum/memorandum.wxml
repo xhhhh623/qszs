@@ -1,0 +1,13 @@
+<view>
+<button bindtap="a">  <text> a </text>   </button>
+
+<button>  <text> b </text>   </button>
+
+<button>  <text> c </text>  </button>
+
+<button>  <text> d </text>   </button>
+
+<button>  <text> e </text>  </button>
+
+<button>   <text> f </text> </button>
+</view>

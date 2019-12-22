@@ -1,0 +1,21 @@
+.bianjie{
+  border: solid;
+  display: flex;
+  height: 75rpx;
+}
+.shunxu{
+  display: flex;
+  justify-content: space-around;
+  height: 100rpx;
+
+}
+.contianer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 600rpx;
+  text-align: center;
+}
+.submit{
+  color: orange;
+}

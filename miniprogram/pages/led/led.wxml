@@ -1,0 +1,7 @@
+
+<view>
+<button  bindtap="led" class='goodbutton'  hover-class="hover">开关</button>
+</view>
+<view>
+<image src="../../images/led3.jpg"></image>
+</view>

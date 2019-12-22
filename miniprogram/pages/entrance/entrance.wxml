@@ -1,0 +1,6 @@
+<view>
+<image src="../../images/daolun1.jpg" class="logo"></image>
+</view>
+<view>
+<button bindtap="go" class="in">寝室小助手</button> 
+</view>

@@ -1,0 +1,10 @@
+.qiuku
+{
+width: 750rpx;
+height: 500rpx;
+}
+.wenzi
+{
+text-align: center
+
+}

@@ -1,0 +1,27 @@
+.func
+{
+width: 100%;
+border:solid;
+margin: 30rpx;
+padding: 50rpx;
+text-align: left;
+
+}
+.images
+{
+  height: 100rpx;
+  width: 150rpx;
+  margin: 50rpx;
+  margin-top: 40rpx;
+}
+.hang
+{
+  display: flex;
+  
+
+   
+}
+
+view{
+
+}
